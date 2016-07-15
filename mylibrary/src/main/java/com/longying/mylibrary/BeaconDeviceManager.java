@@ -1,4 +1,4 @@
-package com.longying.beacontools;
+package com.longying.mylibrary;
 
 import android.app.Activity;
 import android.view.LayoutInflater;
@@ -9,6 +9,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.UUID;
 
 /**
  *  信标设备管理类
@@ -24,7 +25,8 @@ public class BeaconDeviceManager {
     //private BeaconDeviceRssiComparator rssiComparator;
     private Timer mTimer;
     private TimerTask mSortTask;
-    private BeaconScannerDelegate beaconScannerDelegate;
+    private ScannerResultNameListener scannerName;
+    private ScannerResultUUIDListener scannerUUID;
 
    /* public enum SortType { //枚举 排序
         BEACON_DEVICE_SORT_NONE,
@@ -33,22 +35,29 @@ public class BeaconDeviceManager {
     }
 */
 
-    public void setScannerDelegateCallback(BeaconScannerDelegate bsd){
-        beaconScannerDelegate = bsd;
+    private interface ScannerResultUUIDListener{
+        void didUpdateNearestBeaconUUID(UUID uuid, Short major, Short minor);
+    }
+
+    private interface ScannerResultNameListener{
+        void didUpdateNearestBeaconName(String name);
+    }
+
+
+    public void setBeaconScannerResultCallback(ScannerResultUUIDListener sul){
+        this.scannerUUID = sul;
+    }
+    public void setBeaconScannerResultCallback(ScannerResultNameListener bsd){
+        this.scannerName = bsd;
     }
 
     private BeaconDeviceManager (){
         beaconDevices = new ArrayList<BeaconDeviceBean>();
         beaconDeviceIndexes = new HashMap();
-        mTimer = new Timer();
-        mSortTask = new TimerTask() {
-            @Override
-            public void run() {
-                sortIntMethod();
-            }
-        };
-        mTimer.schedule(mSortTask ,500,500);
+
     }
+
+
 
     public static synchronized BeaconDeviceManager getInstance(){
         if (mBeaconManager == null){
@@ -76,7 +85,8 @@ public class BeaconDeviceManager {
      * @return
      */
     public BeaconDeviceBean getDevice() {
-        return beaconDevices.get(0);
+        if (beaconDevices.size() !=0) return beaconDevices.get(0);
+        return null;
     }
 
     /**
@@ -173,7 +183,14 @@ public class BeaconDeviceManager {
                 }
             });
             refreshDeviceHashMap();
-
+          /*  BeaconDeviceBean beaconDeviceBean = beaconDevices.get(0);
+            if (scannerName !=null ){
+                scannerName.didUpdateNearestBeaconName(beaconDeviceBean.getName());
+            }
+            if (scannerUUID != null){
+                scannerUUID.didUpdateNearestBeaconUUID(beaconDeviceBean.getUuid(),beaconDeviceBean.getMajor()
+                        ,beaconDeviceBean.getMinor());
+            }*/
 
         }
     }

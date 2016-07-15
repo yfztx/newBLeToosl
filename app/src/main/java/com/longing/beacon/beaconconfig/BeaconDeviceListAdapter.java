@@ -68,7 +68,7 @@ public class BeaconDeviceListAdapter extends BaseAdapter {
 
     public void addDevice(BeaconDeviceBean device) {
         int i = beaconDeviceBeans.indexOf(device);
-        if (i == -1){
+        if (i < 0){
             beaconDeviceBeans.add(device);
         }else {
             beaconDeviceBeans.remove(i);
@@ -108,12 +108,6 @@ public class BeaconDeviceListAdapter extends BaseAdapter {
 
         }
     }*/
-
-    @Override
-    public void notifyDataSetChanged() {
-        // sortIntMethod();
-        super.notifyDataSetChanged();
-    }
 
     public void removeDevice(BeaconDeviceBean device) {
         if (beaconDeviceBeans.contains(device)) {

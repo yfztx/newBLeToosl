@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.longying.beacontools;
+package com.longying.mylibrary;
 
 import java.util.Calendar;
 import java.util.Date;

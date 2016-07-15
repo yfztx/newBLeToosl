@@ -175,9 +175,6 @@ public class BeaconDevice implements Parcelable{
                 break;
             }
         }
-
-        // Log.i(TAG, "decrypted data: " + Utils.bytesToHexString(decrypted_data));
-
         if (matched) {
             // Log.i(TAG, "our device arrived!");
             beacon_received_time = new Date();
@@ -226,62 +223,13 @@ public class BeaconDevice implements Parcelable{
                 }
                 this.applied_date = Utils.getAppliedDate(day_since_20160101);
             }
-
-            // Log.i(TAG, "hardware version: " + this.hw_ver + ", software version: " + this.sw_ver + ", battery_level = " + this.battery_level + ", mac: " + dev_mac + ", applied date: " + this.applied_date.toString());
         } else {
             return false;
         }
-
-        // Log.i(TAG, "updateInfo OK! (" + (beacon_received_time != null ? beacon_received_time.toString() : "") + ")uuid = " + (this.uuid == null ? "" : this.uuid.toString()) + ", mac = " + this.mac + ", rssi=" + this.rssi + ", txpower = " + this.txpower);
         restart_timer();
-      /*  if ("MYSD_5437B4".equals(name) ){
-            this.rssi = saveData(mRssi_1, rssi);
 
-        }
-        if ("MYSD_544167".equals(name) ){
-            this.rssi = saveData(mRssi_2, rssi);
-
-        }
-        if ("MYSD_54313F".equals(name) ){
-            this.rssi = saveData(mRssi_3, rssi);
-
-        }
-        if ("MYSD_543DC8".equals(name) ){
-            this.rssi = saveData(mRssi_4, rssi);
-
-        }
-        if ("MYSD_5445A6".equals(name) ){
-            this.rssi = saveData(mRssi_5, rssi);
-
-        }
-        if ("MYSD_5445A5".equals(name) ){
-            this.rssi = saveData(mRssi_6, rssi);
-
-        }*/
         return true;
     }
-
-   /* private int mRssi_1[] = new int[5];
-    private int mRssi_2[] = new int[5];
-    private int mRssi_3[] = new int[5];
-    private int mRssi_4[] = new int[5];
-    private int mRssi_5[] = new int[5];
-    private int mRssi_6[] = new int[5];
-    private int saveData(int[] array,int rssi ) {
-        int num = 0;
-        Log.i(TAG,"saveData ===     =========");
-        for (int i= array.length-1;i>=0;i--){
-            if (i==0) {
-                array[0] = rssi;
-            }else {
-                array[i]= array[i-1];
-            }
-            Log.i(TAG," "+ array[i]+"\n");
-            num += array[i];
-        }
-
-        return num/5;
-    }*/
 
     private void restart_timer() {
         if (device_timeout_timer_task != null) {

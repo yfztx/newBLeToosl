@@ -18,21 +18,8 @@ android {
     }
 }
 
-
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:24.0.0'
 }
-
-task makeJar(type: Copy) {
-    delete 'build/libs/beaconScanner.jar'
-    from('build/intermediates/bundles/release/')
-    into('build/libs/')
-    include('classes.jar')
-    rename ('classes.jar', 'beaconScanner.jar')
-}
-
-makeJar.dependsOn(build)
-//在终端执行生成JAR包
-// gradlew makeJar

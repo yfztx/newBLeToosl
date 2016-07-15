@@ -1,4 +1,4 @@
-package com.longying.beacontools;
+package com.longying.mylibrary;
 
 import org.junit.Test;
 

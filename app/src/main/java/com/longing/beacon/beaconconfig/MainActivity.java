@@ -15,11 +15,13 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.longying.beacontools.BeaconDeviceBean;
+import com.longying.beacontools.BeaconDeviceManager;
 import com.longying.beacontools.BeaconScanner;
-import com.longying.beacontools.BeaconScannerDelegate;
+import com.longying.beacontools.BeaconScannerListener;
 
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.UUID;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -38,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
     private boolean mac;
     private long mTime;
     private BeaconScanner mBeaconScanner;
+    private   BeaconDeviceManager instance;
     String mName[] = {"MYSD_5437B4", "MYSD_544167", "MYSD_54313F", "MYSD_543DC8", "MYSD_5445A6", "MYSD_5445A5"};
 
 
@@ -110,23 +113,49 @@ public class MainActivity extends AppCompatActivity {
 
         mBluetoothAdapter.enable();
         mBeaconScanner = new BeaconScanner(this);
-        mBeaconScanner.initBeaconDevice();
+        //mBeaconScanner.initBeaconDevice();
         //MYSD_5445BE".equals(name) || "MYSD_5444AC"
-        //mBeaconScanner.registerBeacon("MYSD_5445BE");
-       // mBeaconScanner.registerBeacon("MYSD_5444AC");
+        mBeaconScanner.registerBeacon("MYSD_5445BE");
+        mBeaconScanner.registerBeacon("MYSD_5444AC");
 
         for (int i=0;i< mName.length;i++){
             mBeaconScanner.registerBeacon(mName[i]);
         }
         mDevices = new BeaconDeviceListAdapter(this);
-        mBeaconScanner.setBeaconScannerDlegateCallback(new BeaconScannerDelegate() {
+        instance = BeaconDeviceManager.getInstance();
+        mBeaconScanner.setBeaconScannerListenerCallback(new BeaconScannerListener() {
             @Override
-            public void didUpdateNearestBeacon(BeaconDeviceBean bdb) {
-                mDevices.addDevice(bdb);
-                mDevices.notifyDataSetChanged();
+            public void didUpdateNearestBeaconName( String deviceID, String name) {
+                if (name != null){
+                    //BeaconDeviceBean device = mDevices.getDevice(deviceID);
+                    final BeaconDeviceBean device = instance.getDevice(deviceID);
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            mDevices.addDevice(device);
+                            mDevices.notifyDataSetChanged();
+                        }
+                    });
+
+                }
+            }
+
+            @Override
+            public void didUpdateNearestBeaconUUID(String deviceID, UUID uuid, short major, short minor) {
+                if (uuid != null){
+
+                    final BeaconDeviceBean device = instance.getDevice(deviceID);
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            mDevices.addDevice(device);
+                            mDevices.notifyDataSetChanged();
+                        }
+                    });
+
+                }
             }
         });
-
 
         ListView listView = (ListView) findViewById(R.id.listView);
 
@@ -272,7 +301,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private BeaconDeviceBean.device_timeout_callback device_timeout_cb = new BeaconDeviceBean.device_timeout_callback() {
+   /* private BeaconDeviceBean.device_timeout_callback device_timeout_cb = new BeaconDeviceBean.device_timeout_callback() {
         @Override
         public void onDeviceTimeout(final BeaconDeviceBean device) {
             runOnUiThread(new Runnable() {
@@ -286,7 +315,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
         }
-    };
+    };*/
 
     private boolean isResume = true;
     /*private BluetoothAdapter.LeScanCallback mLeScanCallback =

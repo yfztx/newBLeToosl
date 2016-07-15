@@ -1,4 +1,4 @@
-package com.longying.beacontools;
+package com.longying.mylibrary;
 
 import android.bluetooth.BluetoothDevice;
 import android.util.Log;
@@ -9,7 +9,7 @@ import java.util.TimerTask;
 import java.util.UUID;
 
 /**
- * Created by Administrator on 2016/7/13.
+ * 信标实体类
  */
 public class BeaconDeviceBean {
     private static final String TAG = "BeaconDeviceBean";

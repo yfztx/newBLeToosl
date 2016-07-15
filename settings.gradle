@@ -1,1 +1,1 @@
-include ':app', ':beacontools'
+include ':app', ':mylibrary'
