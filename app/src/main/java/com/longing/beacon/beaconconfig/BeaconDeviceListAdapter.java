@@ -9,8 +9,8 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.longying.beacontools.BeaconDeviceBean;
-import com.longying.beacontools.Utils;
+import com.longying.mylibrary.BeaconDeviceBean;
+import com.longying.mylibrary.Utils;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -25,7 +25,9 @@ public class BeaconDeviceListAdapter extends BaseAdapter {
     private HashMap beaconDeviceBeanIndexes;
     private LayoutInflater mInflater;
     private Activity mContext;
-   // private BeaconDeviceBeanRssiComparator rssiComparator;
+
+
+    // private BeaconDeviceBeanRssiComparator rssiComparator;
 
     public enum SortType {
         BEACON_DEVICE_SORT_NONE,

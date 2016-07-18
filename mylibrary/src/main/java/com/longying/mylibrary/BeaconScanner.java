@@ -29,7 +29,7 @@ public class BeaconScanner {
     private boolean adapter_lock;
     private BeaconDeviceManager mBeaconManager;
     private ArrayList<BeaconDeviceBean> mBeacons;
-    private BeaconDeviceBean beaconDeviceBean;
+    private BeaconDeviceBean beaconDevice;
     private Timer mScanTimer;
     private TimerTask mScanTimerTask;
     private long SCAN_PERIOD = 80;
@@ -44,12 +44,20 @@ public class BeaconScanner {
     public BeaconScanner() {
     }
 
+    /**
+     * 初始化数据
+     * @param context 引入上下文环境
+     */
     public BeaconScanner(Context context) {
         this.context = context;
         initBeaconDevice();
 
     }
 
+    /**
+     * 信标设备扫描监听器
+     * @param bsl 监听接口
+     */
     public void setBeaconScannerListenerCallback(BeaconScannerListener bsl){
         resultListener = bsl;
     }
@@ -64,7 +72,7 @@ public class BeaconScanner {
         mBeacons = new ArrayList<>();
     }
     /*
-        排序结果
+     * 排序结果
      */
     private void sortAndResult() {
         mBeaconManager.sortIntMethod();
@@ -84,7 +92,6 @@ public class BeaconScanner {
     /**
      * 以UUID Major Minor方式注册扫描目标信标
      * 美游时代信标UUID：fa559aa8-345b-49b2-a7dc-b1a9535bc6ca
-     *
      * @param uuid  信标UUID
      * @param major 信标Major值
      * @param minor 信标Minor值
@@ -92,8 +99,8 @@ public class BeaconScanner {
     public void registerBeacon(UUID uuid, short major, short minor) {
         Log.i(TAG, "registerBeacon = uuid");
         registerFlag = IS_UUID_REGISTER;
-        beaconDeviceBean = new BeaconDeviceBean(uuid, major, minor);
-        mBeacons.add(beaconDeviceBean);
+        beaconDevice = new BeaconDeviceBean(uuid, major, minor);
+        mBeacons.add(beaconDevice);
     }
 
     /**
@@ -104,8 +111,8 @@ public class BeaconScanner {
     public void registerBeacon(String name) {
         Log.i(TAG, "registerBeacon  = name");
         registerFlag = IS_NAME_REGISTER;
-        beaconDeviceBean = new BeaconDeviceBean(name);
-        mBeacons.add(beaconDeviceBean);
+        beaconDevice = new BeaconDeviceBean(name);
+        mBeacons.add(beaconDevice);
     }
 
     /**
@@ -190,7 +197,7 @@ public class BeaconScanner {
             if (newBeacon == null) {
                 newBeacon = new BeaconDeviceBean();
             }
-            if (newBeacon.updateInfo(device, rssi_val, scanRecord)) {
+            if (newBeacon.updateInfo(device, rssi_val, scanRecord,resultListener)) {
                 lock_list();
                 newBeacon.setRssiTimestamp(mTime);
                 if (isEqualDevice(newBeacon)) {

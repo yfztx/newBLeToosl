@@ -41,7 +41,7 @@ public class BeaconDeviceBean {
     public Date applied_date;
 
 
-    public interface device_timeout_callback {
+    private interface device_timeout_callback {
         void onDeviceTimeout(BeaconDeviceBean device);
     }
 
@@ -102,7 +102,7 @@ public class BeaconDeviceBean {
 
     }
 
-    public boolean updateInfo(BluetoothDevice device, int rssi, byte[] scanRecord) {
+    public boolean updateInfo(BluetoothDevice device, int rssi, byte[] scanRecord,BeaconScannerListener resultListener) {
         // Log.i(TAG, "updateInfo enter, device = " + device + ", rssi = " + rssi + ", scanRecord.length = " + scanRecord.length + ", scanRecord = " + Utils.bytesToHexString(scanRecord));
         if ((device.getType() & BluetoothDevice.DEVICE_TYPE_LE) == 0) {
             // Log.i(TAG, "updateInfo failed, not BLE device. device.getType() returned:" + device.getType()+" ;  mac"+device.getAddress());
@@ -203,7 +203,8 @@ public class BeaconDeviceBean {
             this.hw_ver = (int) decrypted_data[1];
             this.sw_ver = (int) decrypted_data[2];
             this.battery_level = (int) decrypted_data[3];
-            String dev_mac = String.format("%02X:%02X:%02X:%02X:%02X:%02X", decrypted_data[4], decrypted_data[5], decrypted_data[6], decrypted_data[7], decrypted_data[8], decrypted_data[9]);
+            String dev_mac = String.format("%02X:%02X:%02X:%02X:%02X:%02X", decrypted_data[4],
+                    decrypted_data[5], decrypted_data[6], decrypted_data[7], decrypted_data[8], decrypted_data[9]);
             if (this.mac != null && !dev_mac.equalsIgnoreCase(this.mac)) {
                 Log.i(TAG, "mac mismatch!, dev mac: " + dev_mac + ", real_mac: " + this.mac);
                 return false;
@@ -217,7 +218,10 @@ public class BeaconDeviceBean {
                 }
                 this.applied_date = Utils.getAppliedDate(day_since_20160101);
             }
-
+            if (resultListener != null){
+                resultListener.didUpdateStatusReport(dev_mac,uuid,device_major,device_minor,hw_ver,sw_ver,
+                        battery_level,dev_mac,applied_date);
+            }
             // Log.i(TAG, "hardware version: " + this.hw_ver + ", software version: " + this.sw_ver + ", battery_level = " + this.battery_level + ", mac: " + dev_mac + ", applied date: " + this.applied_date.toString());
         } else {
             return false;

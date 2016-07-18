@@ -16,6 +16,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
 }
 
 dependencies {
@@ -23,3 +24,15 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:24.0.0'
 }
+
+task makeJar(type:proguard.gradle.ProGuardTask,dependsOn:"build"){
+    delete'build/outputs/jar/beaconscanner.jar'//删除之前编译混淆jar包
+    injars'build/intermediates/bundles/release/classes.jar'//项目编译但未混淆的jar
+    outjars'build/outputs/jar/beaconscanner.jar'//混淆后的jar路径
+    configuration'proguard-rules.pro'// 混淆配置文件
+}
+
+
+
+
+

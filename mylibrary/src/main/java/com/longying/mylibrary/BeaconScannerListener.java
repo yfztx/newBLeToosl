@@ -1,5 +1,6 @@
 package com.longying.mylibrary;
 
+import java.util.Date;
 import java.util.UUID;
 
 /**
@@ -22,7 +23,7 @@ public interface BeaconScannerListener {
      */
     void didUpdateNearestBeaconUUID(String deviceID, UUID uuid, short major, short minor);
 
-    /*
+    /**
      * 更新自巡检状态信息
      * @param deviceID  设备ID
      * @param uuid 信标UUID
@@ -34,6 +35,6 @@ public interface BeaconScannerListener {
      * @param mac 信标MAC地址（设备MAC地址，非广播MAC地址）
      * @param applyDate 信标启用日期
      */
-    /*void didUpdateStatusReport(String deviceID,UUID uuid, short major, short minor, int hardwareVersion , int softwareVersion , int batteryLevel,
-                               String mac, Date applyDate);*/
+    void didUpdateStatusReport(String deviceID,UUID uuid, short major, short minor, int hardwareVersion , int softwareVersion , int batteryLevel,
+                               String mac, Date applyDate);
 }

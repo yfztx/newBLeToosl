@@ -15,3 +15,19 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
+-libraryjars'D:\Program Files\Java\jdk1.8.0_91\jre\lib\rt.jar'
+-libraryjars'D:\Users\Administrator\AppData\Local\Android\sdk\platforms\android-24\android.jar'
+-optimizationpasses 5
+
+-dontusemixedcaseclassnames
+
+-keep public class * com.longying.mylibrary.BeaconDeviceManager
+-keep public class * com.longying.mylibrary.BeaconScanner
+-keep public class * com.longying.mylibrary.BeaconScannerListener
+
+-keep class com.longying.mylibrary.* {
+
+public <fields>;
+
+public <methods>;
+}

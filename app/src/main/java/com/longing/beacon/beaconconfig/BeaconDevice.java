@@ -5,7 +5,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
 
-import com.longying.beacontools.Utils;
+import com.longying.mylibrary.Utils;
 
 import java.util.Date;
 import java.util.Timer;
@@ -17,7 +17,7 @@ import java.util.UUID;
  * Longing Technology.
  */
 public class BeaconDevice implements Parcelable{
-    private static final String TAG = "BeaconDevice";
+    private static final String TAG = "BeaconDeviceBean";
     private static final byte[] valid_uuids[] = {
             {(byte) 0xfa, (byte) 0x55, (byte) 0x9a, (byte) 0xa8, (byte) 0x34, (byte) 0x5b, (byte) 0x49, (byte) 0xb2, (byte) 0xa7, (byte) 0xdc, (byte) 0xb1, (byte) 0xa9, (byte) 0x53, (byte) 0x5b, (byte) 0xc6, (byte) 0xca},
             {(byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00},

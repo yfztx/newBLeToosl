@@ -122,8 +122,8 @@ public class BeaconDeviceManager {
     /*private class BeaconDeviceRssiComparator implements Comparator {
         @Override
         public int compare(Object lhs, Object rhs) {
-            BeaconDevice ldev = (BeaconDevice) lhs;
-            BeaconDevice rdev = (BeaconDevice) rhs;
+            BeaconDeviceBean ldev = (BeaconDeviceBean) lhs;
+            BeaconDeviceBean rdev = (BeaconDeviceBean) rhs;
             return rdev.rssi - ldev.rssi;
         }
     }*/
@@ -131,8 +131,8 @@ public class BeaconDeviceManager {
     /*private class BeaconDeviceMajorMinorComparator implements Comparator {
         @Override
         public int compare(Object lhs, Object rhs) {
-            BeaconDevice ldev = (BeaconDevice) lhs;
-            BeaconDevice rdev = (BeaconDevice) rhs;
+            BeaconDeviceBean ldev = (BeaconDeviceBean) lhs;
+            BeaconDeviceBean rdev = (BeaconDeviceBean) rhs;
             return (ldev.major * 65536 + ldev.minor) - (rdev.major * 65536 + rdev.minor);
         }
     }*/

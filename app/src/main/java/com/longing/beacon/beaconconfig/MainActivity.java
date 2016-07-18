@@ -14,11 +14,12 @@ import android.view.MenuItem;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.longying.beacontools.BeaconDeviceBean;
-import com.longying.beacontools.BeaconDeviceManager;
-import com.longying.beacontools.BeaconScanner;
-import com.longying.beacontools.BeaconScannerListener;
+import com.longying.mylibrary.BeaconDeviceBean;
+import com.longying.mylibrary.BeaconDeviceManager;
+import com.longying.mylibrary.BeaconScanner;
+import com.longying.mylibrary.BeaconScannerListener;
 
+import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.UUID;
@@ -40,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
     private boolean mac;
     private long mTime;
     private BeaconScanner mBeaconScanner;
-    private   BeaconDeviceManager instance;
+    private BeaconDeviceManager instance;
     String mName[] = {"MYSD_5437B4", "MYSD_544167", "MYSD_54313F", "MYSD_543DC8", "MYSD_5445A6", "MYSD_5445A5"};
 
 
@@ -144,7 +145,7 @@ public class MainActivity extends AppCompatActivity {
             public void didUpdateNearestBeaconUUID(String deviceID, UUID uuid, short major, short minor) {
                 if (uuid != null){
 
-                    final BeaconDeviceBean device = instance.getDevice(deviceID);
+                     final BeaconDeviceBean device = instance.getDevice(deviceID);
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -154,6 +155,19 @@ public class MainActivity extends AppCompatActivity {
                     });
 
                 }
+            }
+
+            @Override
+            public void didUpdateStatusReport(String deviceID, final UUID uuid, short major, short minor,
+                                              int hardwareVersion, int softwareVersion, int batteryLevel,
+                                              final String mac, Date applyDate) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                         //Toast.makeText(getApplicationContext(),mac,Toast.LENGTH_SHORT).show();
+                    }
+                });
+
             }
         });
 
@@ -165,13 +179,13 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     Log.i(TAG, "onItemClick! position = " + position + " id = " + id);
-                    BeaconDevice device = mDevices.getDevice(position);
+                    BeaconDeviceBean device = mDevices.getDevice(position);
                     Intent intent = new Intent(activity, DeviceConfigActivity.class);
                     Bundle bundle = new Bundle();
                     // bundle.putString("mac", device.mac);
-                    bundle.putParcelable("BeaconDevice", device);
+                    bundle.putParcelable("BeaconDeviceBean", device);
                     intent.putExtra("bundle", bundle);
-                    Log.i(TAG, "put BeaconDevice: " + device.toString());
+                    Log.i(TAG, "put BeaconDeviceBean: " + device.toString());
                     startActivityForResult(intent, DeviceConfigActivity.ResultReqestCode);
                 }
             });*/
@@ -222,7 +236,7 @@ public class MainActivity extends AppCompatActivity {
                         int i=0;
                         while (true) {
                             if (i < mDevices.getCount()) {
-                                final BeaconDevice device;
+                                final BeaconDeviceBean device;
                                 device = mDevices.getDevice(i);
                                 long time_diff = now.getTime() - device.beacon_received_time.getTime();
                                 Log.i(TAG, "device " + device.mac + ", time diff = " + time_diff);
@@ -337,9 +351,9 @@ public class MainActivity extends AppCompatActivity {
                             String mac = device.getAddress();
                             long l = System.currentTimeMillis() - mTime;
                             if (l < 500) {
-                                BeaconDevice newBeaconDevice = mDevices.getDevice(device.getAddress());
+                                BeaconDeviceBean newBeaconDevice = mDevices.getDevice(device.getAddress());
                                 if (newBeaconDevice == null) {
-                                    newBeaconDevice = new BeaconDevice();
+                                    newBeaconDevice = new BeaconDeviceBean();
                                 }
                                 newBeaconDevice.setmTime(mTime);
                                 if (newBeaconDevice.updateInfo(device, rssi_val, scanRecord)) {
@@ -416,7 +430,7 @@ public class MainActivity extends AppCompatActivity {
             if (resultCode == 0) {
                 if (intent != null) {
                     Bundle data = intent.getBundleExtra("result");
-                    final BeaconDevice device = data.getParcelable("BeaconDevice");
+                    final BeaconDevice device = data.getParcelable("BeaconDeviceBean");
                     Log.i(TAG, "===onActivityResult=== status=" + device.getDeviceStatus());
                     if (device.getDeviceStatus() == 129) {
                         mBluetoothAdapter.disable();

@@ -130,15 +130,15 @@ public class Utils {
         for (int i=0;i<decryption_len;i++) {
             raw_data_i[i] = 0;
         }
-        Log.i("BeaconDevice", "--------------------------------test start----------------------------------");
-        Log.i("BeaconDevice", "raw_data_i:" + intsToHexString(raw_data_i));
+        Log.i("BeaconDeviceBean", "--------------------------------test start----------------------------------");
+        Log.i("BeaconDeviceBean", "raw_data_i:" + intsToHexString(raw_data_i));
         XXTEA_Encryption(raw_data_i, decryption_len, key);
-        Log.i("BeaconDevice", "raw_data_i(encrypted):" + intsToHexString(raw_data_i));
+        Log.i("BeaconDeviceBean", "raw_data_i(encrypted):" + intsToHexString(raw_data_i));
         XXTEA_Decryption(raw_data_i, decryption_len, key);
-        Log.i("BeaconDevice", "raw_data_i(decrypted):" + intsToHexString(raw_data_i));
-        Log.i("BeaconDevice", "--------------------------------test end------------------------------------");
+        Log.i("BeaconDeviceBean", "raw_data_i(decrypted):" + intsToHexString(raw_data_i));
+        Log.i("BeaconDeviceBean", "--------------------------------test end------------------------------------");
 
-        Log.i("BeaconDevice", "raw_data:" + bytesToHexString(raw_data));
+        Log.i("BeaconDeviceBean", "raw_data:" + bytesToHexString(raw_data));
         */
         for (int i = 0; i < decryption_len; i++) {
             raw_data_i[i] = (((int)raw_data[i * 4 + 0]) & 0x000000FF)
@@ -146,16 +146,16 @@ public class Utils {
                     | ((((int) raw_data[i * 4 + 2]) << 16) & 0x00FF0000)
                     | ((((int) raw_data[i * 4 + 3]) << 24) & 0xFF000000);
         }
-        // Log.i("BeaconDevice", "raw_data_i:" + intsToHexString(raw_data_i));
+        // Log.i("BeaconDeviceBean", "raw_data_i:" + intsToHexString(raw_data_i));
         XXTEA_Decryption(raw_data_i, decryption_len, key);
-        // Log.i("BeaconDevice", "raw_data_i:" + intsToHexString(raw_data_i));
+        // Log.i("BeaconDeviceBean", "raw_data_i:" + intsToHexString(raw_data_i));
         for (int i = 0; i < decryption_len; i++) {
             decrypted_data[i * 4 + 0] = (byte) (raw_data_i[i] & 0xFF);
             decrypted_data[i * 4 + 1] = (byte) ((raw_data_i[i] >> 8) & 0xFF);
             decrypted_data[i * 4 + 2] = (byte) ((raw_data_i[i] >> 16) & 0xFF);
             decrypted_data[i * 4 + 3] = (byte) ((raw_data_i[i] >> 24) & 0xFF);
         }
-        // Log.i("BeaconDevice", "decrypted_data:" + bytesToHexString(decrypted_data));
+        // Log.i("BeaconDeviceBean", "decrypted_data:" + bytesToHexString(decrypted_data));
     }
 
     public static Date getAppliedDate(int days_since_20160101) {

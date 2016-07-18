@@ -31,7 +31,7 @@ import android.widget.Toast;
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.longying.beacontools.Utils;
+import com.longying.mylibrary.Utils;
 
 import java.text.DateFormat;
 import java.util.Date;
@@ -207,8 +207,8 @@ public class DeviceConfigActivity extends Activity {
 
         Intent intent = getIntent();
         Bundle bundle = intent.getBundleExtra("bundle");
-        current_config_device = bundle.getParcelable("BeaconDevice");
-        Log.i(TAG, "get BeaconDevice: " + (current_config_device == null ? "null" : current_config_device.toString()));
+        current_config_device = bundle.getParcelable("BeaconDeviceBean");
+        Log.i(TAG, "get BeaconDeviceBean: " + (current_config_device == null ? "null" : current_config_device.toString()));
 
         textStatus = (TextView) findViewById(R.id.text_status);
         textUUID = (TextView) findViewById(R.id.text_uuid);
@@ -376,7 +376,7 @@ public class DeviceConfigActivity extends Activity {
     private void sendActivityResult() {
         Intent intent = new Intent();
         Bundle data = new Bundle();
-        data.putParcelable("BeaconDevice", current_config_device);
+        data.putParcelable("BeaconDeviceBean", current_config_device);
         intent.putExtra("result", data);
         Log.i(TAG, "sendActivityResult: intent = " + intent);
         setResult(0, intent);
